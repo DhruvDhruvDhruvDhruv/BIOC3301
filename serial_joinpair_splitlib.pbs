@@ -1,0 +1,29 @@
+#!/bin/bash
+#BATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
+
+# Load modules
+module load eb
+module load Miniconda2
+
+# loading virtualenv
+source activate qiime1
+
+# setting temporary directory
+export TMPDIR=~/qiime_tmp
+
+#join the pairs
+echo "Joining paired ends"
+join_paired_ends.py -f ~/2018_02_smb/Read1.fastq.gz -r ~/2018_02_smb/Read2.fastq.gz -b ~/2018_02_smb/Index.fastq.gz -m ~/2018_02_smb/2018mapNum.tsv -o ~/2018_02_smb/JoinedReads/
+
+# splitting libraries
+echo "splitting libraries"
+time split_libraries_fastq.py --barcode_type 12 -i ~/2018_02_smb/JoinedReads/seqprep_assembled.fastq.gz -b ~/2018_02_smb/JoinedReads/seqprep_assembled.fastq_barcodes.fastq -o ~/2018_02_smb/sloutjoin -m ~/2018_02_smb/2018mapNum.tsv -q 19 --rev_comp_barcode --rev_comp_mapping_barcode
+
+# counting sequences
+echo "Counting sequences"
+time count_seqs.py -i ~/2018_02_smb/sloutjoin/seqs.fna
+
+# deactivating environment
+source deactivate

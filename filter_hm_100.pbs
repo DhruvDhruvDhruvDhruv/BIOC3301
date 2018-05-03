@@ -1,0 +1,21 @@
+#!/bin/bash
+#SBATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Load modules
+module load eb
+module load Miniconda2
+module load R
+
+# loading virtualenv
+source activate qiime1
+
+# setting temporary directory
+export TMPDIR=~/qiime_tmp
+
+# core diversity analysis
+time filter_taxa_from_otu_table.py -i ~/2018_02_smb/otus3/CoreBiom/core_table_100.biom -o ~/2018_02_smb/otus3/core100/c100happymind.biom -p D_1__Bacteroidetes,D_5__Mycobacterium,D_1__Verrucomicrobia
+
+# deactivating environment
+source deactivate

@@ -1,0 +1,20 @@
+#!/bin/bash
+#SBATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Load modules
+module load eb
+module load Miniconda2
+
+# loading virtualenv
+source activate qiime1
+
+# setting temporary directory
+export TMPDIR=~/qiime_tmp
+
+# make heatmap for filtered healthy mind bacteria
+time make_otu_heatmap.py -i ~/2018_02_smb/otus3/core100/c100happymind.biom -o ~/2018_02_smb/otus3/core100/hmap100happymind.png -m ~/2018_02_smb/2018mapNum.tsv -t ~/SILVA_128_QIIME_release/trees/97/97_otus.tre -g png --height 5 --width 5 --color_scheme Greys --dpi 700
+
+# deactivating environment
+source deactivate

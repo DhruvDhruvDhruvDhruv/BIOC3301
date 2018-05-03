@@ -1,0 +1,27 @@
+#!/bin/bash
+#SBATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Load modules
+module load eb
+module load Miniconda2
+module load R
+
+# loading virtualenv
+source activate qiime1
+
+# setting temporary directory
+export TMPDIR=~/qiime_tmp
+
+# core diversity analysis
+echo "Computing core microbiome 50 - 100"
+time compute_core_microbiome.py -i ~/2018_02_smb/otus3/otu_table.biom -o ~/2018_02_smb/otus3/CoreBiom/ --min_fraction_for_core 0.50
+
+# make readable for 80 and 100
+echo "Making readable versions"
+time biom convert -i ~/2018_02_smb/otus3/CoreBiom/core_table_100.biom -o ~/2018_02_smb/otus3/CoreBiom/ctab100.txt --to-tsv
+time biom convert -i ~/2018_02_smb/otus3/CoreBiom/core_table_80.biom -o ~/2018_02_smb/otus3/CoreBiom/ctab80.txt --to-tsv
+
+# deactivating environment
+source deactivate
