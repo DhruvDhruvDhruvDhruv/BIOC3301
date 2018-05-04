@@ -1,7 +1,7 @@
 # BIOC3301 - GAIA
 
 ## Info
-This repository contains all of the code used for the "GAIA: Conferring mental wellbeing from mother earth’s microbiome to us" dissertation to ascertain the idea of park microbiome conferring cognitive and mood improvements to humans. The code processed metagenomic data from the 16S V4 rRNA gene and was run in QIIME 1.9.1.
+This repository contains all of the code used for the "GAIA: Conferring mental wellbeing from mother earth’s microbiome to us" dissertation in order to ascertain the validity of the idea that the park microbiome confers improvements to our cognition and mood. The code processed metagenomic data from the 16S V4 rRNA gene and was run in QIIME 1.9.1.
 
 ### The workflow follows this order:
 * serial_joinpair_splitlib.pbs - joins the paired ends and demultiplexes the data
